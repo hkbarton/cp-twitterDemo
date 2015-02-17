@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "TwitterClient.h"
+#import "LoginViewController.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +18,24 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    User *curUser = [User currentUser];
+    if (curUser != nil) {
+        
+    } else {
+        
+    }
+    
+    LoginViewController *lvc = [[LoginViewController alloc] init];
+    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:lvc];
+    //nvc.navigationBar.barTintColor = [UIColor colorWithRed:184.0f/255.0f green:11.0f/255.0f blue:4.0f/255.0f alpha:1.0f];
+    self.window.rootViewController = nvc;
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
@@ -40,6 +59,11 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    [[TwitterClient defaultClient] handleCallbackURL:url];
+    return YES;
 }
 
 @end
