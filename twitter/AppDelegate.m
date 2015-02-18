@@ -19,23 +19,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
-    User *curUser = [User currentUser];
-    if (curUser != nil) {
-        
-    } else {
-        
-    }
-    
     LoginViewController *lvc = [[LoginViewController alloc] init];
-    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:lvc];
-    //nvc.navigationBar.barTintColor = [UIColor colorWithRed:184.0f/255.0f green:11.0f/255.0f blue:4.0f/255.0f alpha:1.0f];
-    self.window.rootViewController = nvc;
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
+    self.window.rootViewController = lvc;
     [self.window makeKeyAndVisible];
-    
     return YES;
 }
 

@@ -6,6 +6,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginViewController">
             <connections>
+                <outlet property="btnLogin" destination="wC6-Jn-PKz" id="ydX-QY-zLP"/>
+                <outlet property="imgLogo" destination="LeY-TY-xKb" id="XUM-Fb-OHd"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -14,9 +16,22 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wC6-Jn-PKz">
-                    <rect key="frame" x="137" y="269" width="46" height="30"/>
-                    <state key="normal" title="Login">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TwitterLogo_Big" translatesAutoresizingMaskIntoConstraints="NO" id="LeY-TY-xKb">
+                    <rect key="frame" x="112" y="236" width="96" height="96"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="96" id="fM0-4x-NFc"/>
+                        <constraint firstAttribute="height" constant="96" id="uCC-oq-Ht3"/>
+                    </constraints>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wC6-Jn-PKz">
+                    <rect key="frame" x="85" y="340" width="150" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="150" id="Iam-Sj-IAn"/>
+                        <constraint firstAttribute="height" constant="40" id="aso-dP-YbP"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <state key="normal" title="Login with Twitter" backgroundImage="Login_BG">
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -24,10 +39,20 @@
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.41328822929999998" green="0.73852347699999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="centerX" secondItem="wC6-Jn-PKz" secondAttribute="centerX" id="4Z7-I4-KkK"/>
+                <constraint firstAttribute="centerX" secondItem="LeY-TY-xKb" secondAttribute="centerX" id="CyV-E1-sa6"/>
+                <constraint firstAttribute="centerY" secondItem="LeY-TY-xKb" secondAttribute="centerY" id="apB-4b-Fhh"/>
+                <constraint firstItem="wC6-Jn-PKz" firstAttribute="top" secondItem="LeY-TY-xKb" secondAttribute="bottom" constant="8" id="hED-kb-zpR"/>
+            </constraints>
             <point key="canvasLocation" x="140" y="154"/>
         </view>
     </objects>
+    <resources>
+        <image name="Login_BG" width="150" height="40"/>
+        <image name="TwitterLogo_Big" width="512" height="512"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
