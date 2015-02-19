@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="142" id="KGk-i7-Jjw" customClass="TweetTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="327" height="142"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pLW-BR-jTE">
+                        <rect key="frame" x="8" y="28" width="48" height="48"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="48" id="cq3-NO-Umd"/>
+                            <constraint firstAttribute="width" constant="48" id="mB4-uR-EgN"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7Id-uA-yao">
+                        <rect key="frame" x="44" y="8" width="12" height="12"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="12" id="GZp-WG-aOG"/>
+                            <constraint firstAttribute="height" constant="12" id="uPx-sF-YyP"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Retweet status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AQA-5V-8sT">
+                        <rect key="frame" x="64" y="6" width="255" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="ScreenName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eOF-ln-U3I">
+                        <rect key="frame" x="64" y="28" width="162" height="17"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TweeterHandle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TIx-m9-lfS">
+                        <rect key="frame" x="230" y="29" width="90" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hzc-OZ-A1z">
+                        <rect key="frame" x="64" y="49" width="255" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="AQA-5V-8sT" secondAttribute="trailing" constant="8" id="4JM-bG-hTU"/>
+                    <constraint firstItem="Hzc-OZ-A1z" firstAttribute="leading" secondItem="pLW-BR-jTE" secondAttribute="trailing" constant="8" id="6ta-v8-rJT"/>
+                    <constraint firstItem="7Id-uA-yao" firstAttribute="centerY" secondItem="AQA-5V-8sT" secondAttribute="centerY" id="Dtb-cl-a7J"/>
+                    <constraint firstItem="eOF-ln-U3I" firstAttribute="centerY" secondItem="TIx-m9-lfS" secondAttribute="centerY" id="EVh-Le-fSp"/>
+                    <constraint firstItem="TIx-m9-lfS" firstAttribute="leading" secondItem="eOF-ln-U3I" secondAttribute="trailing" constant="4" id="FpW-tx-BMv"/>
+                    <constraint firstItem="eOF-ln-U3I" firstAttribute="top" secondItem="pLW-BR-jTE" secondAttribute="top" id="Nrf-3E-DsH"/>
+                    <constraint firstItem="pLW-BR-jTE" firstAttribute="top" secondItem="7Id-uA-yao" secondAttribute="bottom" constant="8" id="PNE-IA-OfX"/>
+                    <constraint firstItem="7Id-uA-yao" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="U8q-sj-DOB"/>
+                    <constraint firstItem="eOF-ln-U3I" firstAttribute="leading" secondItem="pLW-BR-jTE" secondAttribute="trailing" constant="8" id="UiE-VW-Vjb"/>
+                    <constraint firstItem="Hzc-OZ-A1z" firstAttribute="top" secondItem="TIx-m9-lfS" secondAttribute="bottom" constant="8" id="W2x-1m-GvA"/>
+                    <constraint firstItem="Hzc-OZ-A1z" firstAttribute="top" secondItem="eOF-ln-U3I" secondAttribute="bottom" constant="4" id="WIF-S8-5Ht"/>
+                    <constraint firstItem="AQA-5V-8sT" firstAttribute="leading" secondItem="7Id-uA-yao" secondAttribute="trailing" constant="8" id="WeA-Yx-0Wj"/>
+                    <constraint firstAttribute="trailing" secondItem="TIx-m9-lfS" secondAttribute="trailing" constant="8" id="YjH-im-Sao"/>
+                    <constraint firstAttribute="trailing" secondItem="Hzc-OZ-A1z" secondAttribute="trailing" constant="8" id="gyF-go-AXj"/>
+                    <constraint firstItem="pLW-BR-jTE" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="nHG-tK-xXC"/>
+                    <constraint firstItem="7Id-uA-yao" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="44" id="uuL-6G-DGu"/>
+                    <constraint firstItem="AQA-5V-8sT" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="wkp-rA-UYv"/>
+                </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="wkp-rA-UYv"/>
+                        <exclude reference="W2x-1m-GvA"/>
+                    </mask>
+                </variation>
+            </tableViewCellContentView>
+            <point key="canvasLocation" x="143.5" y="204"/>
+        </tableViewCell>
+    </objects>
+</document>

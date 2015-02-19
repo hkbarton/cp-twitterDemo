@@ -17,12 +17,25 @@ const int DefaultPageCount = 20;
     result.pageCount = DefaultPageCount;
     result.maxID = nil;
     result.sinceID = nil;
-    result.isIncludeEntries = YES;
+    result.isIncludeEntities = YES;
     return result;
 }
 
 - (NSDictionary *)getAPISearchParameter {
-    return nil;
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    [result setObject:@(self.pageCount) forKey:@"count"];
+    if (self.maxID != nil) {
+        [result setObject:self.maxID forKey:@"max_id"];
+    }
+    if (self.sinceID != nil) {
+        [result setObject:self.sinceID forKey:@"since_id"];
+    }
+    if (self.isIncludeEntities) {
+        [result setObject:@"true" forKey:@"include_entities"];
+    } else {
+        [result setObject:@"false" forKey:@"include_entities"];
+    }
+    return result;
 }
 
 @end

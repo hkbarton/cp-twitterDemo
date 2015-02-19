@@ -13,7 +13,7 @@
 @property (nonatomic, assign) NSInteger pageCount;
 @property (nonatomic, strong) NSString *maxID;
 @property (nonatomic, strong) NSString *sinceID;
-@property (nonatomic, assign) BOOL isIncludeEntries;
+@property (nonatomic, assign) BOOL isIncludeEntities;
 
 + (TwitterQueryParameter *) defaultParameter;
 

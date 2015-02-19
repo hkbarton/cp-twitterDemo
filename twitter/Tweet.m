@@ -14,11 +14,15 @@
     if (self = [super init]) {
         self.ID = [dictionary valueForKeyPath:@"id_str"];
         self.user = [[User alloc] initWithDictionary:[dictionary valueForKey:@"user"]];
+        NSDictionary *retweet = [dictionary valueForKeyPath:@"retweeted_status"];
+        if (retweet != nil) {
+            self.retweetStatus = [[Tweet alloc] initWithDictionary:retweet];
+        }
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"EEE MMM d HH:mm:ss Z y";
         self.createdAt = [formatter dateFromString:[dictionary valueForKeyPath:@"created_at"]];
         self.text = [dictionary valueForKeyPath:@"text"];
-        self.entries = nil; // TODO
+        self.entities = nil; // TODO
         self.retweetCount = [[dictionary valueForKeyPath:@"retweet_count"] integerValue];
         self.isRetweeted = [[dictionary valueForKey:@"retweeted"] boolValue];
         self.favouritesCount = [[dictionary valueForKeyPath:@"favourites_count"] integerValue];
@@ -27,9 +31,9 @@
     return self;
 }
 
-+ (NSArray *)tweetsWithArry:(NSArray *)array {
++ (NSArray *)tweetsWithArry:(NSArray *)dictinoaries {
     NSMutableArray *tweets = [NSMutableArray array];
-    for (NSDictionary *dictionary in array) {
+    for (NSDictionary *dictionary in dictinoaries) {
         [tweets addObject:[[Tweet alloc] initWithDictionary:dictionary]];
     }
     return tweets;

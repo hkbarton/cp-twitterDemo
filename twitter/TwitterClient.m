@@ -23,6 +23,7 @@ NSString *const kTwitterAccessTokenPath = @"oauth/access_token";
 NSString *const kTwitterCallbackURL = @"cptwitterdemo://oauth";
 
 NSString *const kTwitterAPIVerifyCredentials = @"1.1/account/verify_credentials.json";
+NSString *const kTwitterAPIHomeLine = @"1.1/statuses/home_timeline.json";
 
 static TwitterClient *_defaultClient = nil;
 
@@ -58,8 +59,12 @@ static TwitterClient *_defaultClient = nil;
     [self.requestSerializer removeAccessToken];
 }
 
-- (void)queryHomeTimeline {
-
+- (void)queryHomeTimeline: (TwitterQueryParameter *) param withCallback:(void (^)(NSArray *tweets, NSError *error))callback {
+    [self GET:kTwitterAPIHomeLine parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        callback([Tweet tweetsWithArry:responseObject], nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        callback(nil, error);
+    }];
 }
 
 + (TwitterClient *)defaultClient {

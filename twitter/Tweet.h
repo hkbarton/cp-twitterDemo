@@ -13,9 +13,10 @@
 
 @property (nonatomic, strong) NSString *ID;
 @property (nonatomic, strong) User *user;
+@property (nonatomic, strong) Tweet *retweetStatus;
 @property (nonatomic, strong) NSDate *createdAt;
 @property (nonatomic, strong) NSString *text;
-@property (nonatomic, strong) NSArray *entries;
+@property (nonatomic, strong) NSArray *entities;
 @property (nonatomic, assign) NSInteger retweetCount;
 @property (nonatomic, assign) BOOL isRetweeted;
 @property (nonatomic, assign) NSInteger favouritesCount;
@@ -23,6 +24,6 @@
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
-+ (NSArray *)tweetsWithArry:(NSArray *)array;
++ (NSArray *)tweetsWithArry:(NSArray *)dictinoaries;
 
 @end

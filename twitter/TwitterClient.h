@@ -9,6 +9,7 @@
 #import "BDBOAuth1RequestOperationManager.h"
 #import "User.h"
 #import "Tweet.h"
+#import "TwitterQueryParameter.h"
 
 @interface TwitterClient : BDBOAuth1RequestOperationManager
 
