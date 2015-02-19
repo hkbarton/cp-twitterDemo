@@ -16,6 +16,8 @@
 - (void)logout;
 - (void)handleCallbackURL:(NSURL *)url;
 
+
+
 + (TwitterClient *)defaultClient;
 
 @end

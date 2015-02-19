@@ -58,8 +58,6 @@
     [[TwitterClient defaultClient] login:^(User *user, NSError *error) {
         if (user!=nil) {
             [self translateToHomeView];
-        } else {
-            // TODO error handlding
         }
     }];
 }

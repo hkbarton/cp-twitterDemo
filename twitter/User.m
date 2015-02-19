@@ -27,7 +27,10 @@ static User *_currentUser = nil;
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     if (self = [super init]) {
         self.userData = dictionary;
+        self.ID = [dictionary valueForKeyPath:@"id_str"];
         self.name = [dictionary valueForKeyPath:@"name"];
+        self.screenName = [dictionary valueForKeyPath:@"screen_name"];
+        self.profileImageURL = [dictionary valueForKeyPath:@"profile_image_url"];
     }
     return self;
 }

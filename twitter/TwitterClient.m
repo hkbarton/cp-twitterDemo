@@ -58,6 +58,10 @@ static TwitterClient *_defaultClient = nil;
     [self.requestSerializer removeAccessToken];
 }
 
+- (void)queryHomeTimeline {
+
+}
+
 + (TwitterClient *)defaultClient {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

@@ -12,9 +12,17 @@
 
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     if (self = [super init]) {
+        self.ID = [dictionary valueForKeyPath:@"id_str"];
+        self.user = [[User alloc] initWithDictionary:[dictionary valueForKey:@"user"]];
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"EEE MMM d HH:mm:ss Z y";
         self.createdAt = [formatter dateFromString:[dictionary valueForKeyPath:@"created_at"]];
+        self.text = [dictionary valueForKeyPath:@"text"];
+        self.entries = nil; // TODO
+        self.retweetCount = [[dictionary valueForKeyPath:@"retweet_count"] integerValue];
+        self.isRetweeted = [[dictionary valueForKey:@"retweeted"] boolValue];
+        self.favouritesCount = [[dictionary valueForKeyPath:@"favourites_count"] integerValue];
+        self.isFavorited = [[dictionary valueForKey:@"favorited"] boolValue];
     }
     return self;
 }
