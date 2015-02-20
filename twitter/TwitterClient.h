@@ -17,7 +17,7 @@
 - (void)logout;
 - (void)handleCallbackURL:(NSURL *)url;
 
-
+- (void)queryHomeTimeline: (TwitterQueryParameter *) param withCallback:(void (^)(NSArray *tweets, NSError *error))callback;
 
 + (TwitterClient *)defaultClient;
 

@@ -17,6 +17,8 @@
 
 + (TwitterQueryParameter *) defaultParameter;
 
+- (void) reset;
+
 - (NSDictionary *)getAPISearchParameter;
 
 @end

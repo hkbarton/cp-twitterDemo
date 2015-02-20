@@ -60,7 +60,7 @@ static TwitterClient *_defaultClient = nil;
 }
 
 - (void)queryHomeTimeline: (TwitterQueryParameter *) param withCallback:(void (^)(NSArray *tweets, NSError *error))callback {
-    [self GET:kTwitterAPIHomeLine parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self GET:kTwitterAPIHomeLine parameters:[param getAPISearchParameter] success:^(AFHTTPRequestOperation *operation, id responseObject) {
         callback([Tweet tweetsWithArry:responseObject], nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         callback(nil, error);
