@@ -39,7 +39,7 @@ NSString *const TABLE_VIEW_CELL_ID = @"TweetTableViewCell";
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.tableView.estimatedRowHeight = 112;
+    self.tableView.estimatedRowHeight = 20;
     
     self.tableRefreshControl = [[UIRefreshControl alloc] init];
     [self.tableRefreshControl addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];

@@ -67,7 +67,11 @@ NSInteger heightOfImgRetweetStatus, heightOfLabelRetweetStatus;
             self.imageRetweetStatus.frame = frameImgRetweetStatus;
             self.labelRetweetStatus.frame = frameLabelRetweetStatus;
         }
-        self.labelRetweetStatus.text = [NSString stringWithFormat:@"%@ retweeted", tweet.retweetStatus.user.name];
+        
+        [self loadImage:self.imageProfile withURL:tweet.retweetStatus.user.profileImageURL];
+        self.labelRetweetStatus.text = [NSString stringWithFormat:@"%@ retweeted", tweet.user.name];
+        self.labelName.text = tweet.retweetStatus.user.name;
+        self.labelHandle.text = tweet.retweetStatus.user.handle;
     } else {
         CGRect frameImgRetweetStatus = self.imageRetweetStatus.frame;
         CGRect frameLabelRetweetStatus = self.labelRetweetStatus.frame;
@@ -77,10 +81,11 @@ NSInteger heightOfImgRetweetStatus, heightOfLabelRetweetStatus;
         frameLabelRetweetStatus.size.height = 0;
         self.imageRetweetStatus.frame = frameImgRetweetStatus;
         self.labelRetweetStatus.frame = frameLabelRetweetStatus;
+        
+        [self loadImage:self.imageProfile withURL:tweet.user.profileImageURL];
+        self.labelName.text = tweet.user.name;
+        self.labelHandle.text = tweet.user.handle;
     }
-    [self loadImage:self.imageProfile withURL:tweet.user.profileImageURL];
-    self.labelName.text = tweet.user.name;
-    self.labelHandle.text = tweet.user.handle;
     self.labelCreatedAt.text = tweet.createdAt.shortTimeAgoSinceNow;
     self.labelText.text= tweet.text;
     if (tweet.isRetweeted) {

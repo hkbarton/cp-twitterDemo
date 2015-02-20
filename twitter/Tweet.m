@@ -25,7 +25,7 @@
         self.entities = nil; // TODO
         self.retweetCount = [[dictionary valueForKeyPath:@"retweet_count"] integerValue];
         self.isRetweeted = [[dictionary valueForKey:@"retweeted"] boolValue];
-        self.favouritesCount = [[dictionary valueForKeyPath:@"favourites_count"] integerValue];
+        self.favouritesCount = [[dictionary valueForKeyPath:@"favorite_count"] integerValue];
         self.isFavorited = [[dictionary valueForKey:@"favorited"] boolValue];
     }
     return self;
