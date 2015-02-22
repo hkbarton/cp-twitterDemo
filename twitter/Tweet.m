@@ -7,6 +7,9 @@
 //
 
 #import "Tweet.h"
+#import "TwitterClient.h"
+#import "TwitterQueryParameter.h"
+#import "User.h"
 
 @implementation Tweet
 
@@ -17,6 +20,9 @@
         NSDictionary *retweet = [dictionary valueForKeyPath:@"retweeted_status"];
         if (retweet != nil) {
             self.retweetStatus = [[Tweet alloc] initWithDictionary:retweet];
+            self.favouritesCount = self.retweetStatus.favouritesCount;
+        } else {
+            self.favouritesCount = [[dictionary valueForKeyPath:@"favorite_count"] integerValue];
         }
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"EEE MMM d HH:mm:ss Z y";
@@ -31,12 +37,24 @@
         }
         self.retweetCount = [[dictionary valueForKeyPath:@"retweet_count"] integerValue];
         self.isRetweeted = [[dictionary valueForKey:@"retweeted"] boolValue];
-        NSInteger favCount =  [[dictionary valueForKeyPath:@"favorite_count"] integerValue];
-        if (favCount == 0) {
-            favCount =  [[dictionary valueForKeyPath:@"favourites_count"] integerValue];
-        }
-        self.favouritesCount = favCount;
         self.isFavorited = [[dictionary valueForKey:@"favorited"] boolValue];
+        /*
+        if (self.isRetweeted) {
+            TwitterQueryParameter *param = [TwitterQueryParameter defaultParameter];
+            param.sinceID = self.ID;
+            [[TwitterClient defaultClient] getUserTimeline:[User currentUser] withParameter:param withCallback:^(NSArray *tweets, NSError *error) {
+                if (tweets) {
+                    for (int i = 0; i < tweets.count; i++) {
+                        Tweet *t = tweets[i];
+                        if (t.retweetStatus && t.retweetStatus.ID == self.ID) {
+                            self.myRetweetStatus = t;
+                            break;
+                        }
+                    }
+                }
+            }];
+        }
+        */
     }
     return self;
 }

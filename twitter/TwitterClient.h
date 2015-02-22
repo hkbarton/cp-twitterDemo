@@ -23,6 +23,7 @@
 - (void)favorite: (Tweet *)tweet withCallback:(void (^)(Tweet *tweet, NSError *error))callback;
 - (void)unFavorite: (Tweet *)tweet withCallback:(void (^)(Tweet *tweet, NSError *error))callback;
 - (void)tweet: (Tweet *)tweet withCallback:(void (^)(Tweet *tweet, NSError *error))callback;
+- (void)getUserTimeline: (User *)user withParameter:(TwitterQueryParameter *) param withCallback:(void (^)(NSArray *tweets, NSError *error))callback;
 
 + (TwitterClient *)defaultClient;
 

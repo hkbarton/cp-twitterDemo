@@ -146,7 +146,6 @@ NSString *const TABLE_VIEW_CELL_ID = @"TweetTableViewCell";
         return;
     }
     self.isLoading = YES;
-    NSLog(@"Load..............................");
     [[TwitterClient defaultClient] queryHomeTimeline:self.queryParam withCallback:^(NSArray *newTweets, NSError *error) {
         [SVProgressHUD dismiss];
         [self.tableRefreshControl endRefreshing];

@@ -27,7 +27,7 @@ const int DefaultPageCount = 20;
     self.sinceID = nil;
 }
 
-- (NSDictionary *)getAPISearchParameter {
+- (NSMutableDictionary *)getAPISearchParameter {
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
     [result setObject:@(self.pageCount) forKey:@"count"];
     if (self.maxID != nil) {

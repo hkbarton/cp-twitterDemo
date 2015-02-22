@@ -19,6 +19,6 @@
 
 - (void) reset;
 
-- (NSDictionary *)getAPISearchParameter;
+- (NSMutableDictionary *)getAPISearchParameter;
 
 @end
