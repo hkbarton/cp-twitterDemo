@@ -91,6 +91,25 @@
         }
         [initText appendString:@" "];
         self.txtText.text = initText;
+        [self textViewDidChange:self.txtText];
+        // setup origin message
+        NSMutableString *oriMessage = [[NSMutableString alloc] initWithString:self.oriTweet.user.handle];
+        [oriMessage appendString:@": "];
+        [oriMessage appendString:self.oriTweet.text];
+        UILabel *labelOriMessage = [[UILabel alloc] init];
+        labelOriMessage.font = [UIFont systemFontOfSize:14];
+        labelOriMessage.textColor = [UIColor grayColor];
+        labelOriMessage.numberOfLines = 0;
+        CGSize maximumLabelSize = CGSizeMake(appFrame.size.width - 16, FLT_MAX);
+        CGSize expectedLabelSize = [oriMessage boundingRectWithSize:maximumLabelSize options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading) attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:14]} context:nil].size;
+        CGRect newLabelFrame = labelOriMessage.frame;
+        newLabelFrame.origin.x = 8;
+        newLabelFrame.size.width = appFrame.size.width - 16;
+        newLabelFrame.size.height = expectedLabelSize.height;
+        newLabelFrame.origin.y = - expectedLabelSize.height - 5;
+        labelOriMessage.frame = newLabelFrame;
+        labelOriMessage.text = oriMessage;
+        [self.scrollView insertSubview:labelOriMessage atIndex:0];
     }
 }
 

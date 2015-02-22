@@ -26,7 +26,6 @@
     [self.buttonFavorite setImage:[UIImage imageNamed:@"fav_light"] forState:UIControlStateNormal];
     [self.buttonFavorite setImage:[UIImage imageNamed:@"fav_selected"] forState:UIControlStateSelected];
     self.labelText.preferredMaxLayoutWidth = self.labelText.frame.size.width;
-    self.labelRetweetCount.preferredMaxLayoutWidth = self.labelRetweetCount.frame.size.width;
     self.imageProfile.layer.cornerRadius = 4.0f;
     self.imageProfile.clipsToBounds = YES;
 }
@@ -34,7 +33,27 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.labelText.preferredMaxLayoutWidth = self.labelText.frame.size.width;
-    self.labelRetweetCount.preferredMaxLayoutWidth = self.labelRetweetCount.frame.size.width;
+}
+
+- (void)updateConstraints {
+    [super updateConstraints];
+    if (!self.tweetRef) {
+        return;
+    }
+    if (self.tweetRef.retweetStatus != nil) {
+        self.heightOfRetweetStatus.constant = 12;
+        self.topSpaceOfRetweetStatus.constant = 8;
+    } else {
+        self.heightOfRetweetStatus.constant = 0;
+        self.topSpaceOfRetweetStatus.constant = 0;
+    }
+    if (self.tweetRef.mainImageURL) {
+        self.topSpaceOfImageTweet.constant = 8;
+        self.heightOfImageTweet.constant = 150;
+    } else {
+        self.topSpaceOfImageTweet.constant = 0;
+        self.heightOfImageTweet.constant = 0;
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -63,15 +82,11 @@
     self.labelRetweetCount.text = @"0";
     self.labelFavCount.text = @"0";
     if (tweet.retweetStatus != nil) {
-        self.heightOfRetweetStatus.constant = 12;
-        self.topSpaceOfRetweetStatus.constant = 8;
         [self loadImage:self.imageProfile withURL:tweet.retweetStatus.user.profileImageURL];
         self.labelRetweetStatus.text = [NSString stringWithFormat:@"%@ retweeted", tweet.user.name];
         self.labelName.text = tweet.retweetStatus.user.name;
         self.labelHandle.text = tweet.retweetStatus.user.handle;
     } else {
-        self.heightOfRetweetStatus.constant = 0;
-        self.topSpaceOfRetweetStatus.constant = 0;
         self.labelRetweetStatus.text = @"";
         [self loadImage:self.imageProfile withURL:tweet.user.profileImageURL];
         self.labelName.text = tweet.user.name;
@@ -82,12 +97,7 @@
     self.labelCreatedAt.text = [formatter stringFromDate:tweet.createdAt];
     self.labelText.text= tweet.text;
     if (tweet.mainImageURL) {
-        self.topSpaceOfImageTweet.constant = 8;
-        self.heightOfImageTweet.constant = 150;
         [self loadImage:self.imageTweet withURL:tweet.mainImageURL];
-    } else {
-        self.topSpaceOfImageTweet.constant = 0;
-        self.heightOfImageTweet.constant = 0;
     }
     if (tweet.isRetweeted) {
         self.buttonRetweet.selected = YES;
@@ -97,6 +107,8 @@
         self.buttonFavorite.selected = YES;
     }
     self.labelFavCount.text = [NSString stringWithFormat:@"%ld", tweet.favouritesCount];
+    [self setNeedsUpdateConstraints];
+    [self layoutIfNeeded];
 }
 
 - (IBAction)onReplyClick:(id)sender {

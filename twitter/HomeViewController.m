@@ -46,7 +46,7 @@ NSString *const TABLE_VIEW_CELL_ID = @"TweetTableViewCell";
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.tableView.estimatedRowHeight = 20;
+    self.tableView.estimatedRowHeight = 200;
     
     self.tableRefreshControl = [[UIRefreshControl alloc] init];
     [self.tableRefreshControl addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
@@ -146,6 +146,7 @@ NSString *const TABLE_VIEW_CELL_ID = @"TweetTableViewCell";
         return;
     }
     self.isLoading = YES;
+    NSLog(@"Load..............................");
     [[TwitterClient defaultClient] queryHomeTimeline:self.queryParam withCallback:^(NSArray *newTweets, NSError *error) {
         [SVProgressHUD dismiss];
         [self.tableRefreshControl endRefreshing];
@@ -153,7 +154,7 @@ NSString *const TABLE_VIEW_CELL_ID = @"TweetTableViewCell";
             self.isLoading = NO;
             return;
         }
-        self.hasNextPage = newTweets.count > 0 ? YES : NO;
+        self.hasNextPage = newTweets.count >= self.queryParam.pageCount/2 ? YES : NO;
         if (!self.hasNextPage) {
             self.tableView.tableFooterView.hidden = YES;
         } else {
@@ -210,7 +211,8 @@ NSString *const TABLE_VIEW_CELL_ID = @"TweetTableViewCell";
         CGPoint center = self.infiniteLoadingView.center;
         center.x = self.tableFooterView.center.x;
         self.infiniteLoadingView.center = center;
-        [self loadData];
+        // Because twitter API return so fast, in order to show the loading spiner, delay 1 sec here
+        [self performSelector:@selector(loadData) withObject:nil afterDelay:1];
     }
     
     return cell;
