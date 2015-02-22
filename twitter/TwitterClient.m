@@ -24,6 +24,11 @@ NSString *const kTwitterCallbackURL = @"cptwitterdemo://oauth";
 
 NSString *const kTwitterAPIVerifyCredentials = @"1.1/account/verify_credentials.json";
 NSString *const kTwitterAPIHomeLine = @"1.1/statuses/home_timeline.json";
+NSString *const kTwitterAPIRetweet = @"1.1/statuses/retweet/%@.json";
+NSString *const kTwitterAPIFavorite = @"1.1/favorites/create.json";
+NSString *const kTwitterAPIUnFavorite = @"1.1/favorites/destroy.json";
+NSString *const kTwitterAPIDelete = @"1.1/statuses/destroy/%@.json";
+NSString *const kTwitterAPIUpdate = @"1.1/statuses/update.json";
 
 static TwitterClient *_defaultClient = nil;
 
@@ -63,6 +68,58 @@ static TwitterClient *_defaultClient = nil;
     [self GET:kTwitterAPIHomeLine parameters:[param getAPISearchParameter] success:^(AFHTTPRequestOperation *operation, id responseObject) {
         callback([Tweet tweetsWithArry:responseObject], nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        callback(nil, error);
+    }];
+}
+
+- (void)deleteTweet: (Tweet *)tweet withCallback:(void (^)(Tweet *tweet, NSError *error))callback {
+    if (tweet==nil) {
+        callback(nil, [[NSError alloc] init]);
+        return;
+    }
+    [self POST:[NSString stringWithFormat:kTwitterAPIDelete, tweet.ID] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        callback([[Tweet alloc] initWithDictionary:responseObject], nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@", error);
+        callback(nil, error);
+    }];
+}
+
+- (void)retweet: (Tweet *)tweet withCallback:(void (^)(Tweet *tweet, NSError *error))callback {
+    [self POST:[NSString stringWithFormat:kTwitterAPIRetweet, tweet.ID] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        tweet.myRetweetStatus = [[Tweet alloc] initWithDictionary:responseObject];
+        callback(tweet.myRetweetStatus, nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@", error);
+        callback(nil, error);
+    }];
+}
+
+- (void)favorite: (Tweet *)tweet withCallback:(void (^)(Tweet *tweet, NSError *error))callback {
+    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:tweet.ID, @"id", nil];
+    [self POST:kTwitterAPIFavorite parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        callback([[Tweet alloc] initWithDictionary:responseObject], nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@", error);
+        callback(nil, error);
+    }];
+}
+
+- (void)unFavorite: (Tweet *)tweet withCallback:(void (^)(Tweet *tweet, NSError *error))callback {
+    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:tweet.ID, @"id", nil];
+    [self POST:kTwitterAPIUnFavorite parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        callback([[Tweet alloc] initWithDictionary:responseObject], nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@", error);
+        callback(nil, error);
+    }];
+}
+
+- (void)tweet: (Tweet *)tweet withCallback:(void (^)(Tweet *tweet, NSError *error))callback {
+    [self POST:kTwitterAPIUpdate parameters:[tweet toAPIData] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        callback([[Tweet alloc] initWithDictionary:responseObject], nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@", error);
         callback(nil, error);
     }];
 }

@@ -1,39 +1,40 @@
 //
-//  TweetTableViewCell.m
+//  DetailTableViewCell.m
 //  twitter
 //
-//  Created by Ke Huang on 2/19/15.
+//  Created by Ke Huang on 2/21/15.
 //  Copyright (c) 2015 Ke Huang. All rights reserved.
 //
 
-#import "TweetTableViewCell.h"
+#import "DetailTableViewCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "NSDate+DateTools.h"
 
-@interface TweetTableViewCell()
+@interface DetailTableViewCell()
 
 @property (nonatomic, weak) Tweet *tweetRef;
 
 @end
 
-@implementation TweetTableViewCell
+@implementation DetailTableViewCell
 
 - (void)awakeFromNib {
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     [self.buttonReply setImage:[UIImage imageNamed:@"reply_light"] forState:UIControlStateNormal];
     [self.buttonRetweet setImage:[UIImage imageNamed:@"retweet_light"] forState:UIControlStateNormal];
     [self.buttonRetweet setImage:[UIImage imageNamed:@"retweet_selected"] forState:UIControlStateSelected];
     [self.buttonFavorite setImage:[UIImage imageNamed:@"fav_light"] forState:UIControlStateNormal];
     [self.buttonFavorite setImage:[UIImage imageNamed:@"fav_selected"] forState:UIControlStateSelected];
     self.labelText.preferredMaxLayoutWidth = self.labelText.frame.size.width;
+    self.labelRetweetCount.preferredMaxLayoutWidth = self.labelRetweetCount.frame.size.width;
     self.imageProfile.layer.cornerRadius = 4.0f;
     self.imageProfile.clipsToBounds = YES;
-    self.imageTweet.layer.cornerRadius = 4.0f;
-    self.imageTweet.clipsToBounds = YES;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.labelText.preferredMaxLayoutWidth = self.labelText.frame.size.width;
+    self.labelRetweetCount.preferredMaxLayoutWidth = self.labelRetweetCount.frame.size.width;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -58,11 +59,9 @@
 - (void)setTweet: (Tweet *)tweet {
     self.tweetRef = tweet;
     self.buttonRetweet.selected = NO;
-    self.labelRetweetCount.hidden = YES;
-    self.labelRetweetCount.textColor = [UIColor blackColor];
     self.buttonFavorite.selected = NO;
-    self.labelFavCount.hidden = YES;
-    self.labelFavCount.textColor = [UIColor blackColor];
+    self.labelRetweetCount.text = @"0";
+    self.labelFavCount.text = @"0";
     if (tweet.retweetStatus != nil) {
         self.heightOfRetweetStatus.constant = 12;
         self.topSpaceOfRetweetStatus.constant = 8;
@@ -78,7 +77,9 @@
         self.labelName.text = tweet.user.name;
         self.labelHandle.text = tweet.user.handle;
     }
-    self.labelCreatedAt.text = tweet.createdAt.shortTimeAgoSinceNow;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"d/MM/YY, HH:mm";
+    self.labelCreatedAt.text = [formatter stringFromDate:tweet.createdAt];
     self.labelText.text= tweet.text;
     if (tweet.mainImageURL) {
         self.topSpaceOfImageTweet.constant = 8;
@@ -88,32 +89,23 @@
         self.topSpaceOfImageTweet.constant = 0;
         self.heightOfImageTweet.constant = 0;
     }
-    UIColor *selectedColor = [UIColor colorWithRed:253.0f/255.0f green:160.0f/255.0f blue:65.0f/255.0f alpha:1.0f];
     if (tweet.isRetweeted) {
         self.buttonRetweet.selected = YES;
-        self.labelRetweetCount.textColor = selectedColor;
     }
-    if (tweet.retweetCount > 0) {
-        self.labelRetweetCount.hidden = NO;
-        self.labelRetweetCount.text = [NSString stringWithFormat:@"%ld", tweet.retweetCount];
-    }
+    self.labelRetweetCount.text = [NSString stringWithFormat:@"%ld", tweet.retweetCount];
     if (tweet.isFavorited) {
         self.buttonFavorite.selected = YES;
-        self.labelFavCount.textColor = selectedColor;
     }
-    if (tweet.favouritesCount > 0) {
-        self.labelFavCount.hidden = NO;
-        self.labelFavCount.text = [NSString stringWithFormat:@"%ld", tweet.favouritesCount];
-    }
+    self.labelFavCount.text = [NSString stringWithFormat:@"%ld", tweet.favouritesCount];
 }
 
-- (IBAction)didClickReply:(id)sender {
+- (IBAction)onReplyClick:(id)sender {
     if (self.delegate) {
-        [self.delegate tweetTableViewCell:self didClickReply:self.tweetRef];
+        [self.delegate didClickReply:self.tweetRef];
     }
 }
 
-- (IBAction)didClickRetweet:(id)sender {
+- (IBAction)onRetweetClick:(id)sender {
     if (self.tweetRef.isRetweeted) {
         self.tweetRef.isRetweeted = false;
         self.tweetRef.retweetCount -= 1;
@@ -123,11 +115,11 @@
     }
     [self setTweet:self.tweetRef];
     if (self.delegate) {
-        [self.delegate tweetTableViewCell:self didClickRetweet:self.tweetRef];
+        [self.delegate didClickRetweet:self.tweetRef];
     }
 }
 
-- (IBAction)didClickFavorite:(id)sender {
+- (IBAction)onFavClick:(id)sender {
     if (self.tweetRef.isFavorited) {
         self.tweetRef.isFavorited = false;
         self.tweetRef.favouritesCount -= 1;
@@ -137,7 +129,7 @@
     }
     [self setTweet:self.tweetRef];
     if (self.delegate) {
-        [self.delegate tweetTableViewCell:self didClickFavorite:self.tweetRef];
+        [self.delegate didClickFavorite:self.tweetRef];
     }
 }
 

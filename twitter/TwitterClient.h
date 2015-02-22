@@ -18,6 +18,11 @@
 - (void)handleCallbackURL:(NSURL *)url;
 
 - (void)queryHomeTimeline: (TwitterQueryParameter *) param withCallback:(void (^)(NSArray *tweets, NSError *error))callback;
+- (void)deleteTweet: (Tweet *)tweet withCallback:(void (^)(Tweet *tweet, NSError *error))callback;
+- (void)retweet: (Tweet *)tweet withCallback:(void (^)(Tweet *tweet, NSError *error))callback;
+- (void)favorite: (Tweet *)tweet withCallback:(void (^)(Tweet *tweet, NSError *error))callback;
+- (void)unFavorite: (Tweet *)tweet withCallback:(void (^)(Tweet *tweet, NSError *error))callback;
+- (void)tweet: (Tweet *)tweet withCallback:(void (^)(Tweet *tweet, NSError *error))callback;
 
 + (TwitterClient *)defaultClient;
 

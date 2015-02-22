@@ -22,13 +22,32 @@
         formatter.dateFormat = @"EEE MMM d HH:mm:ss Z y";
         self.createdAt = [formatter dateFromString:[dictionary valueForKeyPath:@"created_at"]];
         self.text = [dictionary valueForKeyPath:@"text"];
-        self.entities = nil; // TODO
+        NSDictionary *entities = [dictionary valueForKeyPath:@"entities"];
+        if (entities) {
+            NSArray *media = [dictionary valueForKeyPath:@"entities.media"];
+            if (media && media.count > 0) {
+                self.mainImageURL = [media[0] valueForKeyPath:@"media_url"];
+            }
+        }
         self.retweetCount = [[dictionary valueForKeyPath:@"retweet_count"] integerValue];
         self.isRetweeted = [[dictionary valueForKey:@"retweeted"] boolValue];
-        self.favouritesCount = [[dictionary valueForKeyPath:@"favorite_count"] integerValue];
+        NSInteger favCount =  [[dictionary valueForKeyPath:@"favorite_count"] integerValue];
+        if (favCount == 0) {
+            favCount =  [[dictionary valueForKeyPath:@"favourites_count"] integerValue];
+        }
+        self.favouritesCount = favCount;
         self.isFavorited = [[dictionary valueForKey:@"favorited"] boolValue];
     }
     return self;
+}
+
+- (NSDictionary *)toAPIData {
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    [result setObject:self.text forKey:@"status"];
+    if (self.in_reply_id) {
+        [result setObject:self.in_reply_id forKey:@"in_reply_to_status_id"];
+    }
+    return result;
 }
 
 + (NSArray *)tweetsWithArry:(NSArray *)dictinoaries {
@@ -37,6 +56,13 @@
         [tweets addObject:[[Tweet alloc] initWithDictionary:dictionary]];
     }
     return tweets;
+}
+
++ (Tweet *)createNewTweet: (NSString *)text withReply: (NSString *)replyID {
+    Tweet *result = [[Tweet alloc] init];
+    result.text = text;
+    result.in_reply_id = replyID;
+    return result;
 }
 
 @end

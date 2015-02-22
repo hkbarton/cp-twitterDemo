@@ -22,6 +22,7 @@ const int DefaultPageCount = 20;
 }
 
 - (void) reset {
+    self.pageCount = DefaultPageCount;
     self.maxID = nil;
     self.sinceID = nil;
 }

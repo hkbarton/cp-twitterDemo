@@ -16,14 +16,18 @@
 @property (nonatomic, strong) Tweet *retweetStatus;
 @property (nonatomic, strong) NSDate *createdAt;
 @property (nonatomic, strong) NSString *text;
-@property (nonatomic, strong) NSArray *entities;
+@property (nonatomic, strong) NSString *mainImageURL;
 @property (nonatomic, assign) NSInteger retweetCount;
 @property (nonatomic, assign) BOOL isRetweeted;
+@property (nonatomic, strong) Tweet *myRetweetStatus;
 @property (nonatomic, assign) NSInteger favouritesCount;
 @property (nonatomic, assign) BOOL isFavorited;
+@property (nonatomic, assign) NSString *in_reply_id;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
+- (NSDictionary *)toAPIData;
 
 + (NSArray *)tweetsWithArry:(NSArray *)dictinoaries;
++ (Tweet *)createNewTweet: (NSString *)text withReply: (NSString *)replyID;
 
 @end

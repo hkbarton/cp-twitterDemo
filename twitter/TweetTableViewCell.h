@@ -9,6 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "Tweet.h"
 
+@class TweetTableViewCell;
+
+@protocol TweetTableViewCellDelegate <NSObject>
+
+-(void)tweetTableViewCell:(TweetTableViewCell *) tweetTableViewCell didClickReply: (Tweet*) tweet;
+-(void)tweetTableViewCell:(TweetTableViewCell *) tweetTableViewCell didClickRetweet: (Tweet*) tweet;
+-(void)tweetTableViewCell:(TweetTableViewCell *) tweetTableViewCell didClickFavorite: (Tweet*) tweet;
+
+@end
+
 @interface TweetTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageRetweetStatus;
@@ -23,6 +33,15 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelRetweetCount;
 @property (weak, nonatomic) IBOutlet UIButton *buttonFavorite;
 @property (weak, nonatomic) IBOutlet UILabel *labelFavCount;
+@property (weak, nonatomic) IBOutlet UIImageView *imageTweet;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topSpaceOfImageTweet;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightOfImageTweet;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightOfRetweetStatus;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topSpaceOfRetweetStatus;
+
+@property (nonatomic, weak) id<TweetTableViewCellDelegate> delegate;
 
 - (void)setTweet: (Tweet *)tweet;
 

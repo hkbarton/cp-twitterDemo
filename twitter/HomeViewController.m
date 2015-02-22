@@ -12,8 +12,11 @@
 #import "TwitterQueryParameter.h"
 #import "SVProgressHUD.h"
 #import "TweetTableViewCell.h"
+#import "LoginViewController.h"
+#import "ComposeTweetViewController.h"
+#import "TweetDetailViewController.h"
 
-@interface HomeViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface HomeViewController () <UITableViewDataSource, UITableViewDelegate, TweetTableViewCellDelegate, ComposeTweetViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UIRefreshControl *tableRefreshControl;
@@ -23,6 +26,7 @@
 @property (nonatomic, strong) NSMutableArray *tweets;
 @property (nonatomic, strong) TwitterQueryParameter *queryParam;
 @property (nonatomic, assign) BOOL hasNextPage;
+@property (nonatomic, assign) BOOL isLoading;
 
 @end
 
@@ -33,7 +37,10 @@ NSString *const TABLE_VIEW_CELL_ID = @"TweetTableViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Home";
-    
+    // navigation bar
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"Logout"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(onLogoutClicked:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"new_tweet"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(onNewTweetClicked:)];
+
     // setup table
     [self.tableView registerNib:[UINib nibWithNibName:@"TweetTableViewCell" bundle:nil] forCellReuseIdentifier:TABLE_VIEW_CELL_ID];
     self.tableView.dataSource = self;
@@ -55,31 +62,107 @@ NSString *const TABLE_VIEW_CELL_ID = @"TweetTableViewCell";
     self.tweets = [NSMutableArray array];
     self.queryParam = [TwitterQueryParameter defaultParameter];
     self.hasNextPage = NO;
+    self.isLoading = NO;
     [self refreshView];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
+- (void)onLogoutClicked:(id)sender {
+    [User logout];
+    UIView *animBgView = [[UIView alloc] initWithFrame:self.view.frame];
+    animBgView.backgroundColor = [UIColor colorWithRed:84.0f/255.0f green:169.0f/255.0f blue:235.0f/255.0f alpha:1.0f];
+    animBgView.alpha = 0;
+    UIImageView *animImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TwitterLogo_Big"]];
+    animImgView.frame = CGRectMake(0, 0, 1500, 1500);
+    animImgView.center = animBgView.center;
+    animImgView.alpha = 0;
+    [animBgView addSubview:animImgView];
+    [self.view addSubview:animBgView];
+    [UIView animateWithDuration:0.7f delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        animImgView.frame = CGRectMake(0, 0, 96, 96);
+        animImgView.center = animBgView.center;
+        animImgView.alpha = 1;
+        animBgView.alpha = 1;
+    } completion:^(BOOL finished) {
+        LoginViewController *lvc = [[LoginViewController alloc] init];
+        [[UIApplication sharedApplication] keyWindow].rootViewController = lvc;
+    }];
+}
+
+- (void)onNewTweetClicked: (id)sender {
+    ComposeTweetViewController *cc = [[ComposeTweetViewController alloc] initWithTweet: nil];
+    cc.delegate = self;
+    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:cc];
+    nvc.navigationBar.barTintColor = [UIColor whiteColor];
+    [self presentViewController:nvc animated:YES completion:nil];
+}
+
+-(void)tweetTableViewCell:(TweetTableViewCell *) tweetTableViewCell didClickReply: (Tweet*) tweet {
+    ComposeTweetViewController *cc = [[ComposeTweetViewController alloc] initWithTweet: tweet];
+    cc.delegate = self;
+    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:cc];
+    nvc.navigationBar.barTintColor = [UIColor whiteColor];
+    [self presentViewController:nvc animated:YES completion:nil];
+}
+
+-(void)didTweet: (Tweet *)newTweet {
+    [[TwitterClient defaultClient] tweet:newTweet withCallback:^(Tweet *tweet, NSError *error) {
+        if (tweet) {
+            [self.tweets insertObject:tweet atIndex:0];
+            [self.tableView reloadData];
+        }
+    }];
+}
+
+-(void)tweetTableViewCell:(TweetTableViewCell *) tweetTableViewCell didClickRetweet: (Tweet*) tweet {
+    if (tweet.isRetweeted) {
+        [[TwitterClient defaultClient] retweet:tweet withCallback:^(Tweet *tweet, NSError *error) {}];
+    } else {
+        [[TwitterClient defaultClient] deleteTweet:tweet.myRetweetStatus withCallback:^(Tweet *tweet, NSError *error) {
+            tweet.myRetweetStatus = nil;
+        }];
+    }
+}
+
+-(void)tweetTableViewCell:(TweetTableViewCell *) tweetTableViewCell didClickFavorite: (Tweet*) tweet {
+    if (tweet.isFavorited) {
+        [[TwitterClient defaultClient] favorite:tweet withCallback:^(Tweet *tweet, NSError *error) {}];
+    } else {
+        [[TwitterClient defaultClient] unFavorite:tweet withCallback:^(Tweet *tweet, NSError *error) {}];
+    }
+}
+
 #pragma mark - Util
 
 - (void)loadData {
-    [[TwitterClient defaultClient] queryHomeTimeline:self.queryParam withCallback:^(NSArray *tweets, NSError *error) {
+    if (self.isLoading) {
+        return;
+    }
+    self.isLoading = YES;
+    [[TwitterClient defaultClient] queryHomeTimeline:self.queryParam withCallback:^(NSArray *newTweets, NSError *error) {
         [SVProgressHUD dismiss];
         [self.tableRefreshControl endRefreshing];
         if (error != nil) {
+            self.isLoading = NO;
             return;
         }
-        self.hasNextPage = tweets.count == self.queryParam.pageCount ? YES : NO;
+        self.hasNextPage = newTweets.count > 0 ? YES : NO;
         if (!self.hasNextPage) {
             self.tableView.tableFooterView.hidden = YES;
         } else {
             self.tableView.tableFooterView.hidden = NO;
         }
-        self.queryParam.maxID = ((Tweet*)tweets[tweets.count-1]).ID;
-        [self.tweets addObjectsFromArray:tweets];
+        self.queryParam.maxID = ((Tweet*)newTweets[newTweets.count-1]).ID;
+        [self.tweets addObjectsFromArray:newTweets];
         [self.tableView reloadData];
+        self.isLoading = NO;
     }];
 }
 
@@ -117,6 +200,7 @@ NSString *const TABLE_VIEW_CELL_ID = @"TweetTableViewCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TweetTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TABLE_VIEW_CELL_ID];
     
+    cell.delegate = self;
     [cell setTweet:self.tweets[indexPath.row]];
     
     if (indexPath.row >= self.tweets.count -1 && self.hasNextPage) {
@@ -130,6 +214,13 @@ NSString *const TABLE_VIEW_CELL_ID = @"TweetTableViewCell";
     }
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    Tweet *tweet = self.tweets[indexPath.row];
+    TweetDetailViewController *tvc = [[TweetDetailViewController alloc] initWithTweet:tweet];
+    [self.navigationController pushViewController:tvc animated:YES];
 }
 
 @end
