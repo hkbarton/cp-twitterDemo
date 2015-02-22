@@ -10,8 +10,17 @@
 #import "User.h"
 #import "Tweet.h"
 
+@protocol TweetDetailViewControllerDelegate <NSObject>
+
+@optional
+-(void)didBack;
+
+@end
+
 @interface TweetDetailViewController : UIViewController
 
 - (id)initWithTweet: (Tweet *)tweet;
+
+@property (nonatomic, weak) id<TweetDetailViewControllerDelegate> delegate;
 
 @end

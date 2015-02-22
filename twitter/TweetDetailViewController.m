@@ -10,6 +10,7 @@
 #import "DetailTableViewCell.h"
 #import "TwitterClient.h"
 #import "ComposeTweetViewController.h"
+#import "HomeViewController.h"
 
 @interface TweetDetailViewController () <UITableViewDataSource, UITableViewDelegate, DetailTableViewCellDelegate, ComposeTweetViewControllerDelegate>
 
@@ -44,6 +45,14 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void)didMoveToParentViewController:(UIViewController *)parent {
+    if (![parent isEqual:self.parentViewController]) {
+        if (self.delegate) {
+            [self.delegate didBack];
+        }
+    }
 }
 
 -(void)didTweet: (Tweet *)newTweet {

@@ -16,7 +16,7 @@
 #import "ComposeTweetViewController.h"
 #import "TweetDetailViewController.h"
 
-@interface HomeViewController () <UITableViewDataSource, UITableViewDelegate, TweetTableViewCellDelegate, ComposeTweetViewControllerDelegate>
+@interface HomeViewController () <UITableViewDataSource, UITableViewDelegate, TweetTableViewCellDelegate, ComposeTweetViewControllerDelegate, TweetDetailViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UIRefreshControl *tableRefreshControl;
@@ -72,6 +72,10 @@ NSString *const TABLE_VIEW_CELL_ID = @"TweetTableViewCell";
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void)didBack {
+    [self.tableView reloadData];
 }
 
 - (void)onLogoutClicked:(id)sender {
@@ -221,6 +225,7 @@ NSString *const TABLE_VIEW_CELL_ID = @"TweetTableViewCell";
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     Tweet *tweet = self.tweets[indexPath.row];
     TweetDetailViewController *tvc = [[TweetDetailViewController alloc] initWithTweet:tweet];
+    tvc.delegate = self;
     [self.navigationController pushViewController:tvc animated:YES];
 }
 
