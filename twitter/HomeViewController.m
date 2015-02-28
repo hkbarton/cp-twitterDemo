@@ -38,7 +38,7 @@ NSString *const TABLE_VIEW_CELL_ID = @"TweetTableViewCell";
     [super viewDidLoad];
     self.title = @"Home";
     // navigation bar
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"Logout"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(onLogoutClicked:)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"Menu"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(onMenuClicked:)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"new_tweet"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(onNewTweetClicked:)];
 
     // setup table
@@ -78,26 +78,10 @@ NSString *const TABLE_VIEW_CELL_ID = @"TweetTableViewCell";
     [self.tableView reloadData];
 }
 
-- (void)onLogoutClicked:(id)sender {
-    [User logout];
-    UIView *animBgView = [[UIView alloc] initWithFrame:self.view.frame];
-    animBgView.backgroundColor = [UIColor colorWithRed:84.0f/255.0f green:169.0f/255.0f blue:235.0f/255.0f alpha:1.0f];
-    animBgView.alpha = 0;
-    UIImageView *animImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TwitterLogo_Big"]];
-    animImgView.frame = CGRectMake(0, 0, 1500, 1500);
-    animImgView.center = animBgView.center;
-    animImgView.alpha = 0;
-    [animBgView addSubview:animImgView];
-    [self.view addSubview:animBgView];
-    [UIView animateWithDuration:0.7f delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        animImgView.frame = CGRectMake(0, 0, 96, 96);
-        animImgView.center = animBgView.center;
-        animImgView.alpha = 1;
-        animBgView.alpha = 1;
-    } completion:^(BOOL finished) {
-        LoginViewController *lvc = [[LoginViewController alloc] init];
-        [[UIApplication sharedApplication] keyWindow].rootViewController = lvc;
-    }];
+- (void)onMenuClicked:(id)sender {
+    if (self.delegate) {
+        [self.delegate homeViewController:self didMenuClicked:YES];
+    }
 }
 
 - (void)onNewTweetClicked: (id)sender {

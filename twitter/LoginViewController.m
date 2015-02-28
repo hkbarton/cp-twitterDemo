@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#import "MainViewController.h"
 #import  "HomeViewController.h"
 #import "TwitterClient.h"
 
@@ -45,11 +46,8 @@
             self.imgLogo.frame = CGRectMake(0, 0, self.imgLogo.frame.size.width * 17, self.imgLogo.frame.size.height * 17);
             self.imgLogo.center = self.view.center;
         } completion:^(BOOL finished) {
-            HomeViewController *hvc = [[HomeViewController alloc] init];
-            UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:hvc];
-            nvc.navigationBar.barTintColor = [UIColor colorWithRed:84.0f/255.0f green:169.0f/255.0f blue:235.0f/255.0f alpha:1.0f];
-            [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
-            [[UIApplication sharedApplication] keyWindow].rootViewController = nvc;
+            MainViewController *mvc = [[MainViewController alloc] init];
+            [[UIApplication sharedApplication] keyWindow].rootViewController = mvc;
         }];
     }];
 }

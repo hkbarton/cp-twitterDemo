@@ -8,6 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@class HomeViewController;
+
+@protocol HomeViewControllerDelegate
+
+@optional
+
+-(void)homeViewController:(HomeViewController *)homeViewController didMenuClicked:(BOOL)isMenuClicked;
+
+@end
+
 @interface HomeViewController : UIViewController
+
+@property (nonatomic, weak) id<HomeViewControllerDelegate> delegate;
 
 @end

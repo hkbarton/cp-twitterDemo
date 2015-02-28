@@ -29,6 +29,7 @@ static User *_currentUser = nil;
         self.userData = dictionary;
         self.ID = [dictionary valueForKeyPath:@"id_str"];
         self.name = [dictionary valueForKeyPath:@"name"];
+        self.des = [dictionary valueForKeyPath:@"description"];
         self.handle = [[NSArray arrayWithObjects:@"@", [dictionary valueForKeyPath:@"screen_name"], nil] componentsJoinedByString:@""];
         self.profileImageURL = [dictionary valueForKeyPath:@"profile_image_url"];
     }

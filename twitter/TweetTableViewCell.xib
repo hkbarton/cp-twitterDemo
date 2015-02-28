@@ -25,7 +25,7 @@
                         <rect key="frame" x="44" y="8" width="12" height="12"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="12" id="GZp-WG-aOG"/>
-                            <constraint firstAttribute="height" constant="12" id="uPx-sF-YyP"/>
+                            <constraint firstAttribute="height" priority="999" constant="12" id="uPx-sF-YyP"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Retweet status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AQA-5V-8sT">
@@ -92,13 +92,13 @@
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OOQ-7D-J0G">
-                        <rect key="frame" x="147" y="233" width="7" height="14"/>
+                        <rect key="frame" x="147" y="234" width="7" height="14"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mMP-My-GJf">
-                        <rect key="frame" x="211" y="233" width="7" height="14"/>
+                        <rect key="frame" x="211" y="234" width="7" height="14"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -112,7 +112,7 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jMF-zC-g4q">
                         <rect key="frame" x="64" y="74" width="263" height="150"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="150" id="Jnb-6c-ETb"/>
+                            <constraint firstAttribute="height" priority="999" constant="150" id="Jnb-6c-ETb"/>
                         </constraints>
                     </imageView>
                 </subviews>

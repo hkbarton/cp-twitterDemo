@@ -25,7 +25,7 @@
                         <rect key="frame" x="44" y="8" width="12" height="12"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="12" id="d2L-mq-ldp"/>
-                            <constraint firstAttribute="height" constant="12" id="g2G-Z1-zb2"/>
+                            <constraint firstAttribute="height" priority="999" constant="12" id="g2G-Z1-zb2"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LVs-Hb-DuR">
@@ -79,13 +79,13 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jUO-qN-M7u">
-                        <rect key="frame" x="130" y="305" width="37" height="17"/>
+                        <rect key="frame" x="131" y="305" width="37" height="17"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RETWEETS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="riP-e1-lHb">
-                        <rect key="frame" x="47" y="305" width="75" height="17"/>
+                        <rect key="frame" x="48" y="305" width="75" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -138,7 +138,7 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pLe-B0-YFn">
                         <rect key="frame" x="8" y="110" width="414" height="150"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="150" id="noP-gT-SXI"/>
+                            <constraint firstAttribute="height" priority="999" constant="150" id="noP-gT-SXI"/>
                         </constraints>
                     </imageView>
                 </subviews>
