@@ -23,18 +23,21 @@ PODS:
   - BDBOAuth1Manager (1.5.0):
     - AFNetworking/NSURLConnection (~> 2.5.0)
     - AFNetworking/NSURLSession (~> 2.5.0)
+  - BlurImageProcessor (1.0.0)
   - DateTools (1.5.0)
   - SVProgressHUD (1.1.2)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - BDBOAuth1Manager
+  - BlurImageProcessor
   - DateTools
   - SVProgressHUD
 
 SPEC CHECKSUMS:
   AFNetworking: 8bee59492a6ff15d69130efa4d0dc67e0094a52a
   BDBOAuth1Manager: 274574557077abc873fc5688abe8b991e782749c
+  BlurImageProcessor: 287a860dbf21c75e9d6217ea9676c8112abe5c16
   DateTools: 7df78f0c4719eb28cfd2d58a90fafd036e73156c
   SVProgressHUD: da7a49e789af645d9279ffbca62318945a832438
 

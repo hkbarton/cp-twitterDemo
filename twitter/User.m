@@ -32,6 +32,13 @@ static User *_currentUser = nil;
         self.des = [dictionary valueForKeyPath:@"description"];
         self.handle = [[NSArray arrayWithObjects:@"@", [dictionary valueForKeyPath:@"screen_name"], nil] componentsJoinedByString:@""];
         self.profileImageURL = [dictionary valueForKeyPath:@"profile_image_url"];
+        self.profileBGImageURL = [dictionary valueForKeyPath:@"profile_background_image_url"];
+        self.location = [dictionary valueForKeyPath:@"location"];
+        self.friendsCount = [[dictionary valueForKeyPath:@"friends_count"] integerValue];
+        self.followerCount = [[dictionary valueForKeyPath:@"followers_count"] integerValue];
+        self.followingCount = self.friendsCount;
+        self.tweetCount = [[dictionary valueForKeyPath:@"statuses_count"] integerValue];
+        
     }
     return self;
 }

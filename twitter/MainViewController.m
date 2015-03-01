@@ -10,9 +10,10 @@
 #import "HomeViewController.h"
 #import "LoginViewController.h"
 #import "MenuViewController.h"
+#import "ProfileViewController.h"
 #import "User.h"
 
-@interface MainViewController () <HomeViewControllerDelegate, MenuViewControllerDelegate>
+@interface MainViewController () <HomeViewControllerDelegate, MenuViewControllerDelegate, ProfileViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UIView *menuView;
@@ -81,12 +82,20 @@
     } completion:nil];
 }
 
--(void)homeViewController:(HomeViewController *)homeViewController didMenuClicked:(BOOL)isMenuClicked {
+-(void)toggleMenu {
     if ([self isMenuOpen]) {
         [self closeMenu];
     } else {
         [self openMenu];
     }
+}
+
+-(void)homeViewController:(HomeViewController *)homeViewController didMenuClicked:(BOOL)isMenuClicked {
+    [self toggleMenu];
+}
+
+-(void)profileViewController:(ProfileViewController *)profileViewController didMenuClicked:(BOOL)isMenuClicked {
+    [self toggleMenu];
 }
 
 -(void)logout {
@@ -133,7 +142,11 @@
         [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
         result = hnvc;
     } else if ([menuID isEqual:@"PROFILE"]) {
-        
+        ProfileViewController *pvc = [[ProfileViewController alloc] initWithUser:[User currentUser]];
+        pvc.delegate = self;
+        UINavigationController *pnvc = [[UINavigationController alloc] initWithRootViewController:pvc];
+        [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
+        result = pnvc;
     }
     return result;
 }

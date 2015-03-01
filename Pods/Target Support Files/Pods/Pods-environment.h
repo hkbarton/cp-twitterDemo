@@ -54,6 +54,12 @@
 #define COCOAPODS_VERSION_MINOR_BDBOAuth1Manager 5
 #define COCOAPODS_VERSION_PATCH_BDBOAuth1Manager 0
 
+// BlurImageProcessor
+#define COCOAPODS_POD_AVAILABLE_BlurImageProcessor
+#define COCOAPODS_VERSION_MAJOR_BlurImageProcessor 1
+#define COCOAPODS_VERSION_MINOR_BlurImageProcessor 0
+#define COCOAPODS_VERSION_PATCH_BlurImageProcessor 0
+
 // DateTools
 #define COCOAPODS_POD_AVAILABLE_DateTools
 #define COCOAPODS_VERSION_MAJOR_DateTools 1

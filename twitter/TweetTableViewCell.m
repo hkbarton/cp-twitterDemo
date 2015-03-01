@@ -86,7 +86,11 @@
     self.labelFavCount.textColor = [UIColor blackColor];
     if (tweet.retweetStatus != nil) {
         [self loadImage:self.imageProfile withURL:tweet.retweetStatus.user.profileImageURL];
-        self.labelRetweetStatus.text = [NSString stringWithFormat:@"%@ retweeted", tweet.user.name];
+        NSString *retweeterName = tweet.user.name;
+        if ([retweeterName isEqual:[User currentUser].name]) {
+            retweeterName = @"You";
+        }
+        self.labelRetweetStatus.text = [NSString stringWithFormat:@"%@ retweeted", retweeterName];
         self.labelName.text = tweet.retweetStatus.user.name;
         self.labelHandle.text = tweet.retweetStatus.user.handle;
     } else {

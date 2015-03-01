@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-BlurImageProcessor.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-DateTools.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,27 +37,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>14841E8CC2A0553A8DD9ED80</key>
+		<key>26DF8B1BE6AC2A6459882F76</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2680EA457BB2AEB5DDEB3873</key>
+		<key>2D9354B6B2EA1DF5571542AD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5EBAFA7BB362F4413D9121BE</key>
+		<key>CA2AF1E05E37100B6F794D08</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C6AF89CA0BC0CC7304074095</key>
+		<key>DA9E17F6186EC7E292447147</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E93C043CD987F3B0BB11C72B</key>
+		<key>DD927DCBAE83AECFF64425C8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E64D7ACC15DD037982A3CEF0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
