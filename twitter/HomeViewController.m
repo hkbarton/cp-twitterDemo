@@ -23,6 +23,7 @@
 @property (nonatomic, strong) UIView *tableFooterView;
 @property (nonatomic, strong) UIActivityIndicatorView *infiniteLoadingView;
 
+@property (nonatomic, strong) NSString *loadType;
 @property (nonatomic, strong) NSMutableArray *tweets;
 @property (nonatomic, strong) TwitterQueryParameter *queryParam;
 @property (nonatomic, assign) BOOL hasNextPage;
@@ -34,9 +35,26 @@
 
 NSString *const TABLE_VIEW_CELL_ID = @"TweetTableViewCell";
 
+-(HomeViewController *)initWithType:(NSString *)type {
+    if (self = [super init]) {
+        self.loadType = type;
+    }
+    return self;
+}
+
+- (NSString *)getTitle {
+    if ([self.loadType isEqual:@"HOME"]) {
+        return @"Home";
+    } else if ([self.loadType isEqual:@"MENTION"]) {
+        return @"Mentions";
+    } else {
+        return @"Home";
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Home";
+    self.title = [self getTitle];
     // navigation bar
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"Menu"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(onMenuClicked:)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"new_tweet"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(onNewTweetClicked:)];
@@ -134,7 +152,7 @@ NSString *const TABLE_VIEW_CELL_ID = @"TweetTableViewCell";
         return;
     }
     self.isLoading = YES;
-    [[TwitterClient defaultClient] queryHomeTimeline:self.queryParam withCallback:^(NSArray *newTweets, NSError *error) {
+    void (^callback)(NSArray *tweets, NSError *error) = ^(NSArray *newTweets, NSError *error) {
         [SVProgressHUD dismiss];
         [self.tableRefreshControl endRefreshing];
         if (error != nil) {
@@ -151,7 +169,12 @@ NSString *const TABLE_VIEW_CELL_ID = @"TweetTableViewCell";
         [self.tweets addObjectsFromArray:newTweets];
         [self.tableView reloadData];
         self.isLoading = NO;
-    }];
+    };
+    if ([self.loadType isEqual:@"MENTION"]) {
+        [[TwitterClient defaultClient] getMentionTimeline:self.queryParam withCallback:callback];
+    } else {
+        [[TwitterClient defaultClient] queryHomeTimeline:self.queryParam withCallback:callback];
+    }
 }
 
 - (void)reloadData {

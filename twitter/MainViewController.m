@@ -12,11 +12,6 @@
 #import "MenuViewController.h"
 #import "User.h"
 
-typedef enum{
-    HOME = 0,
-    PROFILE = 1
-} ContentViewType;
-
 @interface MainViewController () <HomeViewControllerDelegate, MenuViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *contentView;
@@ -26,6 +21,8 @@ typedef enum{
 @property (nonatomic, assign)CGFloat oriLeftOfContentView;
 @property (nonatomic, assign)CGFloat leftBorderLimitOfContentView;
 @property (nonatomic, assign)CGFloat leftBorderCenterOfContentView;
+
+@property (nonatomic, strong)NSString *curMenuID;
 
 - (IBAction)panContentView:(UIPanGestureRecognizer *)sender;
 
@@ -56,7 +53,8 @@ typedef enum{
     UIBezierPath *shadowPath = [UIBezierPath bezierPathWithRect:self.contentView.bounds];
     self.contentView.layer.shadowPath = shadowPath.CGPath;
     // Steup home view
-    [self showViewControllerInContentView:HOME];
+    [self showViewControllerInContentView:@"HOME"];
+    self.curMenuID = @"HOME";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -114,31 +112,45 @@ typedef enum{
 }
 
 -(void)menuViewController:(MenuViewController *)menuViewController didMenuSelected:(NSString *)menuID {
-    
+    if ([menuID isEqual:@"LOGOUT"]) {
+        [self logout];
+    } else {
+        if (![self.curMenuID isEqual:menuID]) {
+            [self showViewControllerInContentView:menuID];
+        }
+        [self closeMenu];
+    }
+    self.curMenuID = menuID;
 }
 
-- (UIViewController *)createViewControllerByType: (ContentViewType)type {
+- (UIViewController *)createViewControllerByMenuID: (NSString *)menuID {
     UIViewController *result = nil;
-    if (type == HOME) {
-        HomeViewController *hvc = [[HomeViewController alloc] init];
+    if ([menuID isEqual:@"HOME"] || [menuID isEqual:@"MENTION"]) {
+        HomeViewController *hvc = [[HomeViewController alloc] initWithType:menuID];
         hvc.delegate = self;
         UINavigationController *hnvc = [[UINavigationController alloc] initWithRootViewController:hvc];
         hnvc.navigationBar.barTintColor = [UIColor colorWithRed:84.0f/255.0f green:169.0f/255.0f blue:235.0f/255.0f alpha:1.0f];
         [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
         result = hnvc;
-    } else if (type == PROFILE) {
+    } else if ([menuID isEqual:@"PROFILE"]) {
         
     }
-    self.contentViewController = result;
     return result;
 }
 
-- (void)showViewControllerInContentView: (ContentViewType)type {
-    UIViewController *viewController = [self createViewControllerByType:type];
-    [self addChildViewController:viewController];
-    viewController.view.frame = self.contentView.frame;
-    [self.contentView addSubview:viewController.view];
-    [viewController didMoveToParentViewController:self];
+- (void)showViewControllerInContentView: (NSString *)menuID {
+    // remove old view controller
+    if (self.contentViewController != nil) {
+        [self.contentViewController willMoveToParentViewController:nil];
+        [self.contentViewController.view removeFromSuperview];
+        [self.contentViewController removeFromParentViewController];
+    }
+    // add new view controller
+    self.contentViewController = [self createViewControllerByMenuID:menuID];
+    [self addChildViewController:self.contentViewController];
+    self.contentViewController.view.frame = self.contentView.bounds;
+    [self.contentView addSubview:self.contentViewController.view];
+    [self.contentViewController didMoveToParentViewController:self];
 }
 
 - (IBAction)panContentView:(UIPanGestureRecognizer *)sender {

@@ -30,6 +30,7 @@ NSString *const kTwitterAPIUnFavorite = @"1.1/favorites/destroy.json";
 NSString *const kTwitterAPIDelete = @"1.1/statuses/destroy/%@.json";
 NSString *const kTwitterAPIUpdate = @"1.1/statuses/update.json";
 NSString *const kTwitterAPIUserTimeline = @"1.1/statuses/user_timeline.json";
+NSString *const kTwitterAPIMentionTimeline = @"1.1/statuses/mentions_timeline.json";
 
 static TwitterClient *_defaultClient = nil;
 
@@ -78,6 +79,16 @@ static TwitterClient *_defaultClient = nil;
     [apiParam setObject:user.ID forKey:@"user_id"];
     [apiParam removeObjectForKey:@"include_entities"];
     [self GET:kTwitterAPIUserTimeline parameters:apiParam success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        callback([Tweet tweetsWithArry:responseObject], nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@", error);
+        callback(nil, error);
+    }];
+}
+
+- (void)getMentionTimeline:(TwitterQueryParameter *) param withCallback:(void (^)(NSArray *tweets, NSError *error))callback {
+    NSMutableDictionary *apiParam = [param getAPISearchParameter];
+    [self GET:kTwitterAPIMentionTimeline parameters:apiParam success:^(AFHTTPRequestOperation *operation, id responseObject) {
         callback([Tweet tweetsWithArry:responseObject], nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@", error);

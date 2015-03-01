@@ -20,6 +20,7 @@
 
 @interface HomeViewController : UIViewController
 
+-(HomeViewController *)initWithType:(NSString *)type;
 @property (nonatomic, weak) id<HomeViewControllerDelegate> delegate;
 
 @end
