@@ -17,7 +17,7 @@ Time spent: 17 hours
 
 - [x] Pulling down the profile page should blur and resize the header image.
 - [x] Scroll up the profile page will hide user's detal information and show cutomize navigation bar with user's name and tweet count
-- [x] Customize animation/effect for Profile page scroll view, like the real Twitter application.
+- [x] Customize animation/effect for Profile page scroll view, like the real Twitter application.(spend a lot of time on this)
 
 ### Walkthrough
 
