@@ -13,6 +13,7 @@
 
 @protocol TweetTableViewCellDelegate <NSObject>
 
+-(void)tweetTableViewCell:(TweetTableViewCell *) tweetTableViewCell didClickUser: (User*) user;
 -(void)tweetTableViewCell:(TweetTableViewCell *) tweetTableViewCell didClickReply: (Tweet*) tweet;
 -(void)tweetTableViewCell:(TweetTableViewCell *) tweetTableViewCell didClickRetweet: (Tweet*) tweet;
 -(void)tweetTableViewCell:(TweetTableViewCell *) tweetTableViewCell didClickFavorite: (Tweet*) tweet;

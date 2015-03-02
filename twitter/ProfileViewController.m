@@ -125,7 +125,11 @@
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor clearColor];
     self.navigationController.navigationBar.backgroundColor = [UIColor clearColor];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"Menu"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(onMenuClicked)];
+    if (self.navigationController.viewControllers.count == 1) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"Menu"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(onMenuClicked)];
+    } else {
+        self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    }
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"new_tweet"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(onNewTweetClicked)];
     // view setup
     self.imageProfile.layer.cornerRadius = 4.0f;
@@ -146,6 +150,9 @@
     [self.infiniteLoadingView startAnimating];
     [self.tableFooterView addSubview:self.infiniteLoadingView];
     self.tableView.tableFooterView = self.tableFooterView;
+    if (![self.user.handle isEqualToString:[User currentUser].handle]) {
+        self.btnEditProfile.hidden = YES;
+    }
     // load data
     self.tweets = [NSMutableArray array];
     self.queryParam = [TwitterQueryParameter defaultParameter];
@@ -154,10 +161,7 @@
     [self loadData];
 }
 
-- (void)layoutDetailContainer:(CGRect) appFrame{
-}
-
-- (void)viewDidAppear:(BOOL)animated {
+- (void)customLayout {
     CGRect appFrame = [[UIScreen mainScreen] applicationFrame];
     CGFloat navigationBarHeight = self.navigationController.navigationBar.frame.size.height;
     CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
@@ -168,12 +172,15 @@
     [self.imageBg addSubview:self.navTitleView];
     self.nativeDetailContainerFrame = CGRectMake(0, 115, appFrame.size.width, 165);
     self.detialContainer.frame = self.nativeDetailContainerFrame;
-    [self layoutDetailContainer:appFrame];
     self.yPosOfDetialNamelLabel = self.labelName.frame.origin.y + 17;
     self.nativeImageProfileFrame = self.imageProfile.frame;
     self.nativeTableViewFrame = CGRectMake(0, 280, appFrame.size.width, appFrame.size.height - navigationBarHeight);
     self.tableView.frame = self.nativeTableViewFrame;
     self.topLimitHeight = navigationBarHeight + statusBarHeight;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [self customLayout];
 }
 
 - (void)onMenuClicked {

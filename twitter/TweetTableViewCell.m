@@ -29,6 +29,9 @@
     self.imageProfile.clipsToBounds = YES;
     self.imageTweet.layer.cornerRadius = 4.0f;
     self.imageTweet.clipsToBounds = YES;
+    UITapGestureRecognizer *profileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onProfileTap:)];
+    profileTap.numberOfTapsRequired = 1;
+    [self.imageProfile addGestureRecognizer:profileTap];
 }
 
 - (void)layoutSubviews {
@@ -123,6 +126,13 @@
     }
     [self setNeedsUpdateConstraints];
     [self layoutIfNeeded];
+}
+
+- (void)onProfileTap:(UITapGestureRecognizer *)sender {
+    if (self.delegate) {
+        User *user = self.tweetRef.retweetStatus!=nil ? self.tweetRef.retweetStatus.user : self.tweetRef.user;
+        [self.delegate tweetTableViewCell:self didClickUser:user];
+    }
 }
 
 - (IBAction)didClickReply:(id)sender {

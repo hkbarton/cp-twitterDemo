@@ -15,6 +15,7 @@
 #import "LoginViewController.h"
 #import "ComposeTweetViewController.h"
 #import "TweetDetailViewController.h"
+#import "ProfileViewController.h"
 
 @interface HomeViewController () <UITableViewDataSource, UITableViewDelegate, TweetTableViewCellDelegate, ComposeTweetViewControllerDelegate, TweetDetailViewControllerDelegate>
 
@@ -86,6 +87,7 @@ NSString *const TABLE_VIEW_CELL_ID = @"TweetTableViewCell";
 
 - (void)viewWillAppear:(BOOL)animated {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -143,6 +145,11 @@ NSString *const TABLE_VIEW_CELL_ID = @"TweetTableViewCell";
     } else {
         [[TwitterClient defaultClient] unFavorite:tweet withCallback:^(Tweet *tweet, NSError *error) {}];
     }
+}
+
+-(void)tweetTableViewCell:(TweetTableViewCell *) tweetTableViewCell didClickUser: (User*) user {
+    ProfileViewController *pvc = [[ProfileViewController alloc] initWithUser:user];
+    [self.navigationController pushViewController:pvc animated:YES];
 }
 
 #pragma mark - Util
