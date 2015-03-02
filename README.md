@@ -21,7 +21,7 @@ Time spent: 17 hours
 
 ### Walkthrough
 
-![Video Walkthrough](kehuang_twitter_2.gif)
+![Video Walkthrough](kehuang_twitter2.gif)
 
 ## Twitter Week 3
 
